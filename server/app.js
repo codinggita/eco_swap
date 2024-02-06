@@ -11,7 +11,7 @@ const Products = require('./products.json');//IMPORT PRODUCTS LIST AND ADD TO MO
 dotenv.config();
 app.use(express.json());
 app.use(cors());
-// const Port = process.env.PORT;
+const Port = process.env.PORT;
   // Middleware to parse JSON requests
 app.use(bodyParser.json());
 
@@ -100,12 +100,12 @@ app.get("/products", async (req,res)=>{
         // if(ele.subcategory == "Chargers" || ele.subcategory == "Laptop"){
         //   result.push(ele);
         // }
-        
-    result.push(ele);
+        console.log("fetched product", ele.title);
+        result.push(ele);
     });
     // console.log(productsData[0].title);
     console.log("success")
-    // res.status(200).json(result);
+    res.status(200).json(result);
 });
 
 
@@ -134,17 +134,22 @@ app.patch("/products/:pid", (req,res)=>{
       }
 })
 
-app.get('/cart',(req,res)=>{
+app.get('/',(req,res)=>{
+  console.log("server running succesfully")
+  res.status(200);
     
 })
 
-app.listen(4000, () => {
-    console.log(`Listening on http://localhost:${4000}`);
+app.get('/healthcheck', (req,res)=>{
+  res.status(204).json({status:'successful'});
+})
+
+app.listen(Port, () => {
+    console.log(`Listening on http://localhost:${Port}`);
 });
 
 
 
-//add email and text field spell checks
 
 
 
