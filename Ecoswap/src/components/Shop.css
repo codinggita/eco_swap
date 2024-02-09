@@ -79,6 +79,8 @@
     background-color: white;
     color: rgb(184, 142, 47);
     outline: 0;
+    box-sizing: border-box;
+    font-size: 70%;
 }
 .add-cart-btn:hover{
     color: rgb(204, 162, 67);
@@ -121,8 +123,8 @@
 {
     .card-pro{
         flex-basis: 90%;
-        /* aspect-ratio: 1/2; */
-        height: 70vh;
+        aspect-ratio: 2/3;
+        /* height: 70vh; */
         max-width: 90%;
         gap: 1vh;
     }

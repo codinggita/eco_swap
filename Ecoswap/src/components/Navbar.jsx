@@ -3,22 +3,18 @@ import './Navbar.css'
 import { Link } from 'react-router-dom'
 import { useRef } from 'react';
 import { useState, useEffect } from 'react';
-// import { slide as Menu } from 'react-burger-menu'
 
-// class Example extends React.Component {
-//   showSettings (event) {
-//     event.preventDefault();
-//   }}
-
-
-function Navbar() {
+function Navbar({profileicon}) {
   const myRef = useRef(null);
   const [visibility, setVisibility] = useState("invisible");
   const [sidemenusrc, setSidemenusrc] = useState("/burger-icon.svg");
+  
+  // const [profilesrc, setProfilesrc] = useState("/icon-profile.svg");
 
-  // function handleClick() {
-  //   myRef.style
-  // }
+  function handleClick() {
+    setVisibility("invisible");
+    setSidemenusrc("/burger-icon.svg");
+  }
 
   return (
     <>
@@ -34,7 +30,7 @@ function Navbar() {
           <div className="contact"><Link to="/contact" style={{ textDecoration: 'none', color: 'black' }}>Contact</Link></div>
         </div>
         <div className="icon-nav">
-          <Link to="/profile"><img draggable='false' className="icon-profile" loading="eager" alt="" src="/icon-profile.svg" /></Link>
+          <Link to="/profile"><img draggable='false' className="icon-profile" loading="eager" alt="" src={profileicon} /></Link>
           <img draggable='false' className="icon-search" loading="eager" alt="" src="/icon-search.svg" />
           <img draggable='false' className="icon-heart" loading="eager" alt="" src="/icon-heart.svg" />
           <Link to="/cart"><img draggable='false' className="icon-cart" loading="eager" alt="" src="/icon-cart.svg" /></Link>
@@ -52,10 +48,10 @@ function Navbar() {
           </button>
         </div>
         <div className={"side-bar " + visibility} >
-          <div className="home-nav"><Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></div>
-          <div className="shop"><Link to="/shop" style={{ textDecoration: 'none', color: 'black' }}>Shop</Link></div>
-          <div className="about"><Link to="/about" style={{ textDecoration: 'none', color: 'black' }}>About</Link></div>
-          <div className="contact"><Link to="/contact" style={{ textDecoration: 'none', color: 'black' }}>Contact</Link></div>
+          <div className="home-nav"><Link to="/" onClick={handleClick} style={{ textDecoration: 'none', color: 'black' }}>Home</Link></div>
+          <div className="shop"><Link to="/shop" onClick={handleClick} style={{ textDecoration: 'none', color: 'black' }}>Shop</Link></div>
+          <div className="about"><Link to="/about" onClick={handleClick} style={{ textDecoration: 'none', color: 'black' }}>About</Link></div>
+          <div className="contact"><Link to="/contact" onClick={handleClick} style={{ textDecoration: 'none', color: 'black' }}>Contact</Link></div>
         </div>
       </div>
     </>
