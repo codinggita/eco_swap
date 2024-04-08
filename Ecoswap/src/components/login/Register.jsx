@@ -8,10 +8,9 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import config from '../../config';
 
-// const baseURL = "http://localhost:3000/signup"
-
-const baseURL = "https://mystiqueapi.onrender.com/signup";
+const baseURL = config.getBackendUrl();
 
 const Register = ({change}) => {
     const navigate = useNavigate();
@@ -39,15 +38,17 @@ const Register = ({change}) => {
             //     return;
             // }
 
-            axios.post(baseURL, { "name": values.name, "email": values.email, "password": values.password })
+            axios.post(`${baseURL}/signup`, { "name": values.name, "email": values.email, "password": values.password })
                 .then((res) => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     toast.success("Registered Successfully!");
                     change();
                     setTimeout(goHome, 2000);
                 })
                 .catch((err) => {
+                    if(err.response.data.toast === 'userexists') toast.error("User already exists!");
                     console.log(err.response ? err.response.data : "Some error occurred");
+                    // console.log(err)
                 })
         }
     });

@@ -12,12 +12,13 @@ import About from './components/About.jsx'
 import Shop from './components/Shop.jsx'
 import Login from './components/login/Login.jsx'
 import Register from './components/login/Register.jsx'
+import Carty from './components/Carty.jsx'
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios'
 import Profile from './components/login/Profile.jsx'
+import config from './config.js'
 
-// const baseURL = "http://localhost:3000"
-const baseURL = "https://mystiqueapi.onrender.com";
+const baseURL = config.getBackendUrl();
 
 function App() {
   const [profilesrc, setProfilesrc] = useState("/icon-profile.svg");
@@ -43,7 +44,7 @@ function App() {
         //res.data.token res.data.userid res.data.username res.data.cart res.data.email
         setUserdetails({ userid: res.data.userid, cart: res.data.cart, username: res.data.username, email: res.data.email });
         // console.log(res.data.userid,res.data.username, res.data.cart);
-        toast.success("Logged-in Successfully!");
+        // toast.success("Logged-in Successfully!");
         changeprofileicon();
         // setTimeout(goHome, 5000);
       })
@@ -73,17 +74,17 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <ToastContainer autoClose={1800} />
-        <Navbar profileicon={profilesrc} userdetails={userdetails} ogproducts={ogproducts} />
+        <ToastContainer autoClose={1000} />
+        <Navbar profileicon={profilesrc} userdetails={userdetails} ogproducts={ogproducts} setuserdetails={setUserdetails}/>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/*' element={<p>No route found here</p>} />
-          <Route path='/cart' element={<Cart />} />
+          <Route path='/cart' element={<Carty userdetails={userdetails} ogproducts={ogproducts} setuserdetails={setUserdetails}/>} />
           <Route path='/contact' element={<Contact />} />
-          <Route path='/checkout' element={<Cart />} />
+          <Route path='/checkout' element={<Cart userdetails={userdetails} ogproducts={ogproducts}/>} />
           <Route path='/about' element={<About />} />
           <Route path='/profile' element={(userdetails.userid != null) ? <Profile change={(changeprofileiconlgout)} userdetails={userdetails} setUserdetails={setUserdetails} /> : <Login change={changeprofileicon} userdetails={userdetails} setUserdetails={setUserdetails} />} />
-          <Route path='/shop' element={<Shop userdetails={userdetails} ogproducts={ogproducts} />} />
+          <Route path='/shop' element={<Shop userdetails={userdetails} ogproducts={ogproducts} setuserdetails={setUserdetails}/>} />
           <Route path='/register' element={<Register change={changeprofileicon} />} />
         </Routes>
       </BrowserRouter>

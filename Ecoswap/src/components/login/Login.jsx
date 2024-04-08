@@ -7,10 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from "react-toastify";
+import config from '../../config';
 
-// const baseURL = "http://localhost:3000/login"
-
-const baseURL = "https://mystiqueapi.onrender.com/login";
+const baseURL = config.getBackendUrl();
 
 const Login = ({change, userdetails,setUserdetails}) => {
     const navigate = useNavigate();
@@ -35,7 +34,7 @@ const Login = ({change, userdetails,setUserdetails}) => {
             //     return;
             // }
 
-            axios.post(baseURL, { "email": values.email, "password": values.password })
+            axios.post(`${baseURL}/login`, { "email": values.email, "password": values.password })
                 .then((res) => {
                     console.log(res.data.success);
                     //res.data.token
@@ -74,9 +73,9 @@ const Login = ({change, userdetails,setUserdetails}) => {
                                 value={formik.values.email}
                                 placeholder='example@gmail.com'
                             />
-                            {formik.touched.email && formik.errors.email ? (
+                            {/* {formik.touched.email && formik.errors.email ? (
                                 <div>{formik.errors.email}</div>
-                            ) : null}
+                            ) : null} */}
                         </div>
 
                         <div className="labellz">
@@ -90,9 +89,9 @@ const Login = ({change, userdetails,setUserdetails}) => {
                                 value={formik.values.password}
                                 placeholder='password'
                             />
-                            {formik.touched.subject && formik.errors.subject ? (
-                                <div>{formik.errors.subject}</div>
-                            ) : null}
+                            {/* {formik.touched.subject && formik.errors.subject ? (
+                                <div style={{color: 'black'}}>{formik.errors.subject}</div>
+                            ) : null} */}
                         </div>
 
 

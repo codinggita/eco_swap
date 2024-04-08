@@ -4,19 +4,19 @@ import Header from './Header'
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import config from '../config';
 
-const baseURL = "https://mystiqueapi.onrender.com"
-// const baseURL = "http://localhost:3000"
+const baseURL = config.getBackendUrl();
 
-function Shop({userdetails, ogproducts}) {
+function Shop({userdetails, ogproducts, setuserdetails}) {
 
   const addToCart = async (p_id, u_id, p_name) => {
     try{await axios.patch(`${baseURL}/products/${p_id}/${u_id}`, {pid : p_id}).then((res)=>{
-      console.log(res.data);
+      // console.log(res.data);
       userdetails.cart.push(p_id);
+      setuserdetails({...userdetails});
       toast.success(`${p_name} has been added to the cart successfully`);
-    }).catch((err)=>{
-
+    }).catch((err)=>{console.log(err)
     })} catch(error){
       console.log(error);
     }
@@ -38,6 +38,9 @@ function Shop({userdetails, ogproducts}) {
                 <div className='pro-overlay'>
                   <button className='add-cart-btn' onClick={()=>{
                     if(userdetails.userid){
+                      if(userdetails.cart.includes(ele._id)){
+                        toast.warning("Item already present in Cart");
+                      } else
                       addToCart(ele._id, userdetails.userid, ele.title);
                     }
                     else{

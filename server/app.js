@@ -115,9 +115,10 @@ app.post('/signup', async (req, res) => {
   if (!name || !password || !email) {
     return res.status(400).json({ error: 'Enter Complete Details' });
   }
+  //user exists or not
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    res.status(404).send({ failure: 'User already exists' });
+    res.status(404).send({ failure: 'User already exists', toast:'userexists' });
     return;
   }
   //encryption of password
@@ -192,6 +193,36 @@ app.patch("/products/:pid/:uid", async (req, res) => {
     await user.save();
 
     res.status(200).json({ message: `Product added to cart successfully ${user.name}` });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+//remove from cart
+app.patch("/productsrem/:pid/:uid", async (req, res) => {
+  // console.log(req.params);
+  try {
+    const uid = req.params.uid;
+    const pid = req.params.pid;
+
+    // Find the user by uid
+    const user = await User.findOne({ '_id': uid });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Remove pid from the user's cart array
+    // user.cart.push(pid);
+    let index = user.cart.indexOf(pid);
+        if (index !== -1) {
+          user.cart.splice(index, 1);
+        }
+
+    // Save the updated user document
+    await user.save();
+
+    res.status(200).json({ message: `Product removed from cart successfully ${user.name}` });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal server error' });
